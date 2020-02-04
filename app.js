@@ -38,9 +38,10 @@ function draw() {
   background(51);
   for (var i = 0; i < balls.length; i++) {
     balls[i].show();
-    if (balls.length > 150) {
+    if (balls.length > 200) {
       z = balls.shift();
-      delete z;
+      Matter.Composite.remove(world, z)
+      delete z
     } 
   }
   noStroke(255);
