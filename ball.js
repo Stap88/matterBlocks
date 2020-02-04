@@ -1,8 +1,9 @@
 function Ball(x, y, radius) {
   var options = {
     friction: 0.3,
-    restitution: 0.6
+    restitution: 1
   }
+
   this.body = Bodies.circle(x, y, radius, options);
   this.radius = radius;
   World.add(world, this.body);
@@ -18,5 +19,6 @@ function Ball(x, y, radius) {
     stroke(170);
     fill(127);
     circle(0, 0, (this.radius * 2))
+    pop();
   }
 }
