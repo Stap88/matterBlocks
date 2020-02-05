@@ -29,7 +29,14 @@ function setup() {
 
 
 function mouseDragged() {
-  balls.push(new Ball(mouseX, mouseY, 1));
+  if (balls.length > 100) {
+    z = balls.shift();
+    Matter.Composite.remove(world, world.bodies[1]);
+    // Matter.Composite.clear(z, false);
+    delete z;
+  } else {
+  balls.push(new Ball(mouseX, mouseY, 3));
+  }
 } 
 
 
@@ -38,16 +45,12 @@ function draw() {
   background(51);
   for (var i = 0; i < balls.length; i++) {
     balls[i].show();
-    if (balls.length > 200) {
-      z = balls.shift();
-      Matter.Composite.remove(world, z)
-      delete z
-    } 
   }
   noStroke(255);
   fill(170);
   rectMode(CENTER);
   rect(ground.position.x, ground.position.y, width, 100);
+  // console.log(world);
 
 }
 
