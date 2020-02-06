@@ -14,6 +14,7 @@ var world;
 var boxes = [];
 
 var obstacles = [];
+var obstacle_count = 5;
 
 var balls = [];
 const ball_radius = 3;
@@ -25,6 +26,7 @@ var ground;
 function setup() {
   createCanvas(canvas_w, canvas_h);
   physicsSetup();
+  createObstacles();
 }
 
 function physicsSetup() {
@@ -36,7 +38,7 @@ function physicsSetup() {
   }
   ground = Bodies.rectangle(200, height, width, 100, options);
   World.add(world, ground);
-  obstacles.push(new Box(mouseX, mouseY, 20, 20));
+  
 }
 
 function drawGround() {
@@ -46,14 +48,29 @@ function drawGround() {
   rect(ground.position.x, ground.position.y, width, 100); // (x, y, w, h) - More options online
 }
 
-function drawObstacles(x_pos, y_pos) {
+
+function createObstacles() {
+  var count = 0
+  do {
+    rand_x_pos = random(20, 380);
+    rand_y_pos = random(50, 250);
+    obst_w = 20
+    obst_h = 20
+
+    obstacles.push(new Box(rand_x_pos, rand_y_pos, obst_w, obst_h));
+    drawObstacle(rand_x_pos, rand_y_pos, obst_w, obst_h);
+    
+    count += 1
+  } while (count != obstacle_count);
+}
+
+function drawObstacle(x_pos, y_pos, o_width, o_height) {
   noStroke();
   fill(170);
   rectMode(CENTER);
-  for (let obstacle of obstacles) {
-    rect(200, 200, 20, 20)
-  }
+  rect(x_pos, y_pos, o_width, o_height)
 }
+
 
 function removeBody(body_array, world_body_array ) {
   // Removes canvas drawing and physics body from world to free memory
