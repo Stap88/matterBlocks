@@ -14,10 +14,10 @@ var world;
 var boxes = [];
 
 var obstacles = [];
-var obstacle_count = 5;
+var obstacle_count = 50;
 
 var balls = [];
-const ball_radius = 3;
+const ball_radius = 5;
 const ball_limit = 100;
 
 var ground;
@@ -82,7 +82,7 @@ function removeBody(body_array, world_body_array ) {
 
 function mouseDragged() {
   if (balls.length > ball_limit) {
-    removeBody(balls, world.bodies[1]);
+    removeBody(balls, world.bodies[obstacle_count]);
   } else {
   balls.push(new Ball(mouseX, mouseY, ball_radius));
   }

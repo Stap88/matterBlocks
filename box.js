@@ -16,8 +16,9 @@ function Box(x, y, w, h) {
     translate(pos.x, pos.y);
     rotate(angle);
     rectMode(CENTER);
-    strokeWeight(1);
-    stroke(170);
+    // strokeWeight(1);
+    // stroke(170);
+    noStroke();
     fill(127);
     rect(0, 0, this.w, this.h);
     pop();

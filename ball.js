@@ -16,8 +16,11 @@ function Ball(x, y, radius) {
     rotate(angle);
     ellipseMode(CENTER);
     strokeWeight(1);
-    stroke(170);
-    fill(127);
+    noStroke();
+    // stroke(random(0, 255), random(0, 255), random(0, 255)); // Rainbow
+    fill(random(0, 255), random(0, 255), random(0, 255)); // Rainbow 
+    // fill(random(0, 255), 0, random(0, 255)); // Purple Shades
+    // fill(random(0, 255), 0, 0); // Red
     circle(0, 0, (this.radius * 2))
     pop();
   }
