@@ -5,16 +5,29 @@ var Engine = Matter.Engine,
   World = Matter.World,
   Bodies = Matter.Bodies;
 
+var canvas_h = 400;
+var canvas_w = 400;
+
 var engine;
 var world;
 
-// var boxes = [];
+var boxes = [];
+
+var obstacles = [];
+
 var balls = [];
+const ball_radius = 3;
+const ball_limit = 100;
 
 var ground;
 
+// Setup before Main Loop
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(canvas_w, canvas_h);
+  physicsSetup();
+}
+
+function physicsSetup() {
   engine = Engine.create();
   world = engine.world;
   Engine.run(engine);
@@ -22,50 +35,66 @@ function setup() {
     isStatic: true
   }
   ground = Bodies.rectangle(200, height, width, 100, options);
-  // Body.setStatic(ground, true);
   World.add(world, ground);
+  obstacles.push(new Box(mouseX, mouseY, 20, 20));
 }
 
+function drawGround() {
+  noStroke(); // No outline drawn
+  fill(170); // Fill color (R, G, B), single = Grayscale int value
+  rectMode(CENTER); // Draw start point on rectangle
+  rect(ground.position.x, ground.position.y, width, 100); // (x, y, w, h) - More options online
+}
 
+function drawObstacles(x_pos, y_pos) {
+  noStroke();
+  fill(170);
+  rectMode(CENTER);
+  for (let obstacle of obstacles) {
+    rect(200, 200, 20, 20)
+  }
+}
+
+function removeBody(body_array, world_body_array ) {
+  // Removes canvas drawing and physics body from world to free memory
+  z = body_array.shift();
+  Matter.Composite.remove(world, world_body_array);
+  removeBody(world_body_array);
+  delete z;
+}
 
 function mouseDragged() {
-  if (balls.length > 100) {
-    z = balls.shift();
-    Matter.Composite.remove(world, world.bodies[1]);
-    // Matter.Composite.clear(z, false);
-    delete z;
+  if (balls.length > ball_limit) {
+    removeBody(balls, world.bodies[1]);
   } else {
-  balls.push(new Ball(mouseX, mouseY, 3));
+  balls.push(new Ball(mouseX, mouseY, ball_radius));
   }
-} 
+}
 
+// function mousePressed() {
+//   if (balls.length > ball_limit) {
+//     removeBody(balls, world.bodies[1]);
+//   } else {
+//   balls.push(new Ball(mouseX, mouseY, ball_radius));
+//   }
+// } 
 
+// function mouseMoved() {
+//   if (balls.length > ball_limit) {
+//     removeBody(balls, world.bodies[1]);
+//   } else {
+//   balls.push(new Ball(mouseX, mouseY, ball_radius));
+//   }
+// } 
 
+// Main Loop
 function draw() {
   background(51);
   for (var i = 0; i < balls.length; i++) {
     balls[i].show();
   }
-  noStroke(255);
-  fill(170);
-  rectMode(CENTER);
-  rect(ground.position.x, ground.position.y, width, 100);
-  // console.log(world);
-
+  for (var i = 0; i < obstacles.length; i++) {
+    obstacles[i].show();
+  }
+  drawGround();
 }
-
-// BOXES - FOR REFERENCE
-
-// function mousePressed() {
-//   boxes.push(new Box(mouseX, mouseY, random(10, 40) , random(10, 40)));
-// } 
-
-// function draw() {
-//   background(51);
-//   for (var i = 0; i < boxes.length; i++) {
-//     boxes[i].show();
-//   }
-//   noStroke(255);
-//   fill(170);
-//   rectMode(CENTER);
-//   rect(ground.position.x, ground.position.y, width, 100);
