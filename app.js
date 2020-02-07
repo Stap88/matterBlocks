@@ -5,8 +5,8 @@ var Engine = Matter.Engine,
   World = Matter.World,
   Bodies = Matter.Bodies;
 
-var canvas_h = window.innerHeight;
-var canvas_w = window.innerWidth;
+var canvas_h = window.innerHeight - 25;
+var canvas_w = window.innerWidth - 25;
 
 var engine;
 var world;
